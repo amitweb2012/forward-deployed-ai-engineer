@@ -1,0 +1,17 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #07111f; color: #e5eefb; font-family: Arial, Helvetica, sans-serif; }
+.page { min-height: 100vh; max-width: 960px; margin: 0 auto; padding: 72px 24px; }
+.hero { margin-bottom: 32px; }
+.eyebrow { color: #38bdf8; font-size: 12px; font-weight: 700; letter-spacing: .16em; }
+h1 { font-size: clamp(42px, 7vw, 72px); line-height: 1; margin: 14px 0; }
+.hero p { color: #94a3b8; font-size: 18px; max-width: 680px; line-height: 1.6; }
+.card { background: #0d1a2b; border: 1px solid #1e3a5f; border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+textarea { width: 100%; resize: vertical; background: #081423; color: #e5eefb; border: 1px solid #284665; border-radius: 14px; padding: 16px; font: inherit; outline: none; }
+button { margin-top: 14px; border: 0; border-radius: 10px; padding: 12px 18px; background: #38bdf8; color: #04111d; font-weight: 700; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.answer { margin-top: 28px; border-top: 1px solid #1e3a5f; padding-top: 24px; line-height: 1.7; }
+.answer p { white-space: pre-wrap; color: #cbd5e1; }
+.answer h2 { margin-top: 0; }
+.answer h3 { color: #7dd3fc; }
+.error { color: #fca5a5; margin-top: 18px; }
+li { color: #94a3b8; margin: 6px 0; }
