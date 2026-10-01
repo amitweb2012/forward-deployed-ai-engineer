@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from app.config.settings import settings
 from app.generation.llm_service import GenerationResult, MockLLM
+from app.generation.openai_service import OpenAILLM
 from app.retrieval.retriever import InMemoryRetriever
 
 
@@ -13,9 +14,14 @@ class RAGResponse:
 
 
 class RAGPipeline:
-    def __init__(self, retriever: InMemoryRetriever | None = None, llm: MockLLM | None = None) -> None:
+    def __init__(self, retriever: InMemoryRetriever | None = None, llm=None) -> None:
         self.retriever = retriever or InMemoryRetriever()
-        self.llm = llm or MockLLM()
+        if llm is not None:
+            self.llm = llm
+        elif settings.llm_provider.lower() == "openai":
+            self.llm = OpenAILLM()
+        else:
+            self.llm = MockLLM()
 
     def ask(self, question: str, top_k: int | None = None) -> RAGResponse:
         question = question.strip()
