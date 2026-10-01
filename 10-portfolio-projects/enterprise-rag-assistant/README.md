@@ -1,131 +1,197 @@
-# 🧠 Enterprise AI Knowledge Assistant — Python RAG
+# 🧠 Enterprise AI Knowledge Assistant — OpenAI + Python + Next.js
 
-A production-style Python implementation of a Retrieval-Augmented Generation (RAG) assistant. It demonstrates document ingestion, chunking, embeddings, vector retrieval, grounded response generation, a FastAPI API, testing, configuration, and Docker packaging.
+A portfolio-ready Retrieval-Augmented Generation (RAG) application built with **Python/FastAPI, OpenAI, and Next.js**. It demonstrates how to turn enterprise knowledge into a secure, testable AI application with a clean separation between frontend, backend, retrieval, and model integration.
 
-> **Portfolio goal:** demonstrate how an AI Engineer / Forward Deployed Engineer turns an enterprise knowledge problem into a testable application rather than a notebook-only demo.
+> **Portfolio goal:** demonstrate Forward Deployed AI Engineering — problem understanding, AI integration, application engineering, security awareness, evaluation, and production evolution.
 
 ## 🏗️ Architecture
 
 ```text
-Documents
-   ↓
-Loader → Chunker → Embeddings → Retriever
-                                  ↓
-User → FastAPI → RAG Pipeline → LLM Adapter
-                                  ↓
-                         Answer + Sources
+                         ┌──────────────────────┐
+                         │      Next.js UI      │
+                         │   TypeScript / React │
+                         └──────────┬───────────┘
+                                    │ HTTP
+                                    ▼
+                         ┌──────────────────────┐
+                         │    FastAPI Backend   │
+                         │       Python         │
+                         └──────────┬───────────┘
+                                    │
+                         ┌──────────▼───────────┐
+                         │     RAG Pipeline     │
+                         │ Retrieval + Context  │
+                         └──────────┬───────────┘
+                                    │
+                         ┌──────────▼───────────┐
+                         │     OpenAI API       │
+                         │ LLM Generation       │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         Grounded Answer + Sources
 ```
 
-The current implementation intentionally uses a **dependency-free local hash embedding** and **MockLLM** so the project runs without an API key. These are adapters, making it straightforward to replace them with a production embedding model, vector database, and LLM provider.
+## 🧩 Technology Stack
 
-## 📁 Project Structure
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js, React, TypeScript |
+| Backend | Python, FastAPI |
+| AI | OpenAI API |
+| RAG | Chunking, embeddings, vector retrieval |
+| Data | Enterprise documents + metadata |
+| Testing | pytest |
+| Packaging | Docker |
+| Configuration | Pydantic Settings + environment variables |
 
-```text
-enterprise-rag-assistant/
-├── app/
-│   ├── api/                 # FastAPI routes and schemas
-│   ├── config/              # Typed settings
-│   ├── embeddings/          # Embedding abstraction
-│   ├── generation/          # LLM abstraction
-│   ├── ingestion/           # Loading + chunking
-│   ├── rag/                 # End-to-end RAG orchestration
-│   └── retrieval/           # Vector retrieval
-├── data/documents/          # Sample enterprise knowledge
-├── scripts/                 # CLI utilities
-├── tests/                   # Unit tests
-├── Dockerfile
-├── .env.example
-├── pyproject.toml
-└── requirements.txt
+## 🔐 API Key Security
+
+The **OpenAI API key belongs only on the FastAPI server**.
+
+Never use:
+
+```env
+NEXT_PUBLIC_OPENAI_API_KEY=...
 ```
 
-## 🚀 Run Locally
+The Next.js browser application calls the FastAPI backend. The backend reads:
 
-### 1. Create environment
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+The real key must never be committed to GitHub.
+
+## 🚀 Backend Setup
 
 ```bash
+cd 10-portfolio-projects/enterprise-rag-assistant
 python -m venv .venv
 source .venv/bin/activate
-```
-
-Windows PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-### 2. Install dependencies
-
-```bash
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
-### 3. Start the API
+Set your local secret in `.env`:
+
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+LLM_PROVIDER=openai
+MODEL_NAME=gpt-5-mini
+EMBEDDING_MODEL=text-embedding-3-small
+```
+
+Start FastAPI:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Open `http://localhost:8000/docs` for the interactive API documentation.
+API documentation:
 
-### 4. Ask a question
-
-```bash
-curl -X POST http://localhost:8000/api/v1/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question":"What should an enterprise AI answer do when evidence is insufficient?","top_k":3}'
+```text
+http://localhost:8000/docs
 ```
 
-## 🧪 Run Tests
+## 💻 Next.js Frontend
+
+```bash
+cd frontend
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+The frontend uses:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## 🧪 Tests
+
+From the backend project directory:
 
 ```bash
 pytest
 ```
 
-## 📚 Ingest Sample Documents
+## 📚 Sample Knowledge
 
-```bash
-python scripts/ingest_documents.py
+The repository contains a small enterprise knowledge document covering engineering, security, support, and AI usage. It is safe to replace this with your own approved documents.
+
+## 🔄 RAG Workflow
+
+```text
+Documents
+   ↓
+Loader
+   ↓
+Chunking
+   ↓
+Embeddings
+   ↓
+Vector Retrieval
+   ↓
+Relevant Context
+   ↓
+OpenAI
+   ↓
+Grounded Answer
+   ↓
+Sources
 ```
 
-The ingestion script demonstrates the document → chunk pipeline. The API's in-memory retriever is intentionally simple for the first implementation; persistence and a production vector store are planned next.
+## 🔐 Production Security Roadmap
 
-## 🔐 Security Design
-
-The production target includes:
-
-- OAuth2 / OIDC authentication
+- OAuth2 / OIDC
 - JWT validation
 - RBAC / document-level authorization
-- Secret management
+- Secret Manager / Key Vault
 - Prompt-injection testing
 - Input/output validation
 - Audit logging
-- Least-privilege tool access
-
-The current baseline does **not** claim to implement those controls yet; they are part of the next implementation stages.
+- Rate limiting
+- Least-privilege access
 
 ## 📊 Evaluation
 
-The project evaluates the system across retrieval relevance, groundedness, correctness, abstention, latency, reliability, cost, and security. See [evaluation.md](evaluation.md).
+The project is designed to evaluate:
+
+- Retrieval relevance
+- Groundedness
+- Correctness
+- Abstention when evidence is insufficient
+- Latency
+- Reliability
+- Token usage and cost
+- Security test results
+
+See [evaluation.md](evaluation.md).
 
 ## 🗺️ Roadmap
 
 - [x] Python application structure
 - [x] Document loader
 - [x] Text chunking
-- [x] Local embedding adapter
-- [x] In-memory vector retrieval
-- [x] LLM adapter
+- [x] In-memory vector retrieval baseline
+- [x] OpenAI LLM adapter
 - [x] RAG orchestration
 - [x] FastAPI API
+- [x] Next.js frontend
 - [x] Unit tests
 - [x] Dockerfile
-- [ ] Persistent vector database
-- [ ] Production embedding provider
-- [ ] Production LLM provider adapter
+- [ ] OpenAI embedding adapter
+- [ ] PostgreSQL + pgvector
 - [ ] JWT + RBAC
-- [ ] React / Next.js UI
+- [ ] Streaming responses
 - [ ] RAG evaluation dataset
 - [ ] Prometheus / Grafana observability
 - [ ] Kubernetes deployment
@@ -135,11 +201,11 @@ The project evaluates the system across retrieval relevance, groundedness, corre
 
 **Problem:** Enterprise knowledge is distributed across documents and systems.
 
-**Solution:** Build a RAG pipeline that retrieves relevant approved context before generating an answer.
+**Solution:** A Next.js application calls a Python/FastAPI RAG backend, which retrieves relevant context and uses OpenAI to generate a grounded response.
 
-**Engineering:** Python + FastAPI + modular ingestion/retrieval/generation adapters + automated tests + Docker.
+**Engineering:** Python + FastAPI + OpenAI + modular retrieval/generation + Next.js + TypeScript + tests + Docker.
 
-**Production evolution:** Replace local adapters with managed vector storage, production embeddings and an LLM provider; then add authorization, evaluation, observability, and Kubernetes deployment.
+**Production evolution:** Add persistent vector storage, OpenAI embeddings, authorization, evaluation, observability, Kubernetes, and cloud infrastructure.
 
 ## 🔗 Parent Portfolio
 
