@@ -1,5 +1,11 @@
 # 🚀 Forward Deployed AI Engineer
 
+<div align="center">
+
+<img src="assets/logo/fde-logo.svg" alt="Forward Deployed AI Engineer" width="900"/>
+
+</div>
+
 **From real-world problem → production AI solution**
 
 Problem Discovery • Solution Design • AI Engineering • Integration • Security • Cloud • Evaluation • Observability
