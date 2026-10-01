@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+<rect width="1200" height="420" rx="36" fill="#0B1220"/>
+<g stroke="#38BDF8" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M120 210 H310"/>
+<path d="M890 210 H1080"/>
+<path d="M310 210 L390 130"/>
+<path d="M310 210 L390 290"/>
+<path d="M810 130 L890 210"/>
+<path d="M810 290 L890 210"/>
+<path d="M390 130 H810"/>
+<path d="M390 290 H810"/>
+</g>
+<g fill="#F8FAFC">
+<circle cx="120" cy="210" r="16"/><circle cx="310" cy="210" r="16"/>
+<circle cx="390" cy="130" r="16"/><circle cx="390" cy="290" r="16"/>
+<circle cx="810" cy="130" r="16"/><circle cx="810" cy="290" r="16"/>
+<circle cx="890" cy="210" r="16"/><circle cx="1080" cy="210" r="16"/>
+</g>
+<text x="600" y="82" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="700" fill="#F8FAFC">Forward Deployed AI</text>
+<text x="600" y="118" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" fill="#94A3B8">PROBLEM • AI • ENGINEERING • CLOUD • OUTCOME</text>
+<text x="120" y="255" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#CBD5E1">PROBLEM</text>
+<text x="310" y="255" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#CBD5E1">DESIGN</text>
+<text x="600" y="178" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#38BDF8">AI + SOFTWARE + DATA</text>
+<text x="600" y="222" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#38BDF8">SECURITY + CLOUD + EVALUATION</text>
+<text x="890" y="255" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#CBD5E1">DEPLOY</text>
+<text x="1080" y="255" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#CBD5E1">OUTCOME</text>
+</svg>
