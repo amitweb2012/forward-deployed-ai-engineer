@@ -1,117 +1,146 @@
-# 🧠 Enterprise AI Knowledge Assistant
+# 🧠 Enterprise AI Knowledge Assistant — Python RAG
 
-A production-style Retrieval-Augmented Generation (RAG) project that answers questions from enterprise documents and connected business systems while keeping retrieval, authorization, evaluation, and observability explicit.
+A production-style Python implementation of a Retrieval-Augmented Generation (RAG) assistant. It demonstrates document ingestion, chunking, embeddings, vector retrieval, grounded response generation, a FastAPI API, testing, configuration, and Docker packaging.
 
-## 🎯 Problem
+> **Portfolio goal:** demonstrate how an AI Engineer / Forward Deployed Engineer turns an enterprise knowledge problem into a testable application rather than a notebook-only demo.
 
-Enterprise knowledge is often distributed across documents, APIs, and internal systems. Users need grounded answers without manually searching multiple sources.
-
-## 🏗️ Target Architecture
+## 🏗️ Architecture
 
 ```text
-                    ┌─────────────────┐
-                    │      User       │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │   React / Web   │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ FastAPI / Auth  │
-                    └────────┬────────┘
-                             │
-                ┌────────────┴────────────┐
-                ▼                         ▼
-        ┌───────────────┐         ┌───────────────┐
-        │ Retrieval     │         │ Access Policy │
-        │ Pipeline      │         │ / RBAC        │
-        └───────┬───────┘         └───────────────┘
-                │
-                ▼
-        ┌───────────────┐
-        │ Vector Store  │
-        └───────┬───────┘
-                │ Context
-                ▼
-        ┌───────────────┐
-        │     LLM       │
-        └───────┬───────┘
-                │
-                ▼
-        ┌───────────────┐
-        │ Grounded      │
-        │ Response      │
-        └───────────────┘
+Documents
+   ↓
+Loader → Chunker → Embeddings → Retriever
+                                  ↓
+User → FastAPI → RAG Pipeline → LLM Adapter
+                                  ↓
+                         Answer + Sources
 ```
 
-## 🔄 Workflow
+The current implementation intentionally uses a **dependency-free local hash embedding** and **MockLLM** so the project runs without an API key. These are adapters, making it straightforward to replace them with a production embedding model, vector database, and LLM provider.
 
-1. Ingest approved documents.
-2. Parse and normalize content.
-3. Split content into retrievable chunks.
-4. Generate embeddings.
-5. Store vectors and metadata.
-6. Authenticate the user.
-7. Apply document-level access rules.
-8. Retrieve relevant context.
-9. Generate a grounded response.
-10. Return citations / source metadata.
-11. Capture evaluation and operational signals.
-
-## 🔐 Security Requirements
-
-- Authentication and authorization before retrieval.
-- Document-level access control.
-- No secrets in source code.
-- Input and output validation.
-- Prompt-injection testing.
-- Audit logging for sensitive operations.
-- Least-privilege access to tools and data.
-
-## 📊 Evaluation
-
-| Dimension | Example Metric |
-|---|---|
-| Retrieval | Recall / relevance |
-| Grounding | Answer supported by retrieved context |
-| Quality | Correctness / relevance |
-| Safety | Injection and policy tests |
-| Performance | P50 / P95 latency |
-| Cost | Cost per query |
-| Reliability | Error / fallback rate |
-
-## 🧰 Planned Stack
-
-- Python + FastAPI
-- PostgreSQL + vector search
-- LLM provider abstraction
-- React / Next.js UI
-- Docker
-- Kubernetes
-- Prometheus + Grafana
-- pytest
-
-## 📁 Planned Structure
+## 📁 Project Structure
 
 ```text
 enterprise-rag-assistant/
 ├── app/
-│   ├── api/
-│   ├── auth/
-│   ├── ingestion/
-│   ├── retrieval/
-│   ├── generation/
-│   └── evaluation/
-├── tests/
-├── data/
-├── docs/
-├── docker/
-└── README.md
+│   ├── api/                 # FastAPI routes and schemas
+│   ├── config/              # Typed settings
+│   ├── embeddings/          # Embedding abstraction
+│   ├── generation/          # LLM abstraction
+│   ├── ingestion/           # Loading + chunking
+│   ├── rag/                 # End-to-end RAG orchestration
+│   └── retrieval/           # Vector retrieval
+├── data/documents/          # Sample enterprise knowledge
+├── scripts/                 # CLI utilities
+├── tests/                   # Unit tests
+├── Dockerfile
+├── .env.example
+├── pyproject.toml
+└── requirements.txt
 ```
 
-## 🚧 Status
+## 🚀 Run Locally
 
-Architecture and portfolio specification phase. Implementation will be added incrementally, with each step tied to a measurable engineering outcome.
+### 1. Create environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Start the API
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open `http://localhost:8000/docs` for the interactive API documentation.
+
+### 4. Ask a question
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What should an enterprise AI answer do when evidence is insufficient?","top_k":3}'
+```
+
+## 🧪 Run Tests
+
+```bash
+pytest
+```
+
+## 📚 Ingest Sample Documents
+
+```bash
+python scripts/ingest_documents.py
+```
+
+The ingestion script demonstrates the document → chunk pipeline. The API's in-memory retriever is intentionally simple for the first implementation; persistence and a production vector store are planned next.
+
+## 🔐 Security Design
+
+The production target includes:
+
+- OAuth2 / OIDC authentication
+- JWT validation
+- RBAC / document-level authorization
+- Secret management
+- Prompt-injection testing
+- Input/output validation
+- Audit logging
+- Least-privilege tool access
+
+The current baseline does **not** claim to implement those controls yet; they are part of the next implementation stages.
+
+## 📊 Evaluation
+
+The project evaluates the system across retrieval relevance, groundedness, correctness, abstention, latency, reliability, cost, and security. See [evaluation.md](evaluation.md).
+
+## 🗺️ Roadmap
+
+- [x] Python application structure
+- [x] Document loader
+- [x] Text chunking
+- [x] Local embedding adapter
+- [x] In-memory vector retrieval
+- [x] LLM adapter
+- [x] RAG orchestration
+- [x] FastAPI API
+- [x] Unit tests
+- [x] Dockerfile
+- [ ] Persistent vector database
+- [ ] Production embedding provider
+- [ ] Production LLM provider adapter
+- [ ] JWT + RBAC
+- [ ] React / Next.js UI
+- [ ] RAG evaluation dataset
+- [ ] Prometheus / Grafana observability
+- [ ] Kubernetes deployment
+- [ ] Terraform infrastructure
+
+## 🎤 Interview Summary
+
+**Problem:** Enterprise knowledge is distributed across documents and systems.
+
+**Solution:** Build a RAG pipeline that retrieves relevant approved context before generating an answer.
+
+**Engineering:** Python + FastAPI + modular ingestion/retrieval/generation adapters + automated tests + Docker.
+
+**Production evolution:** Replace local adapters with managed vector storage, production embeddings and an LLM provider; then add authorization, evaluation, observability, and Kubernetes deployment.
+
+## 🔗 Parent Portfolio
+
+[Forward Deployed AI Engineer](https://github.com/amitweb2012/forward-deployed-ai-engineer)
