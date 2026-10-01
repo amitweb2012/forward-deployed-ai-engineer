@@ -32,18 +32,42 @@ A portfolio-ready Retrieval-Augmented Generation (RAG) application built with **
                          Grounded Answer + Sources
 ```
 
-## 🧩 Technology Stack
+## 🧩 Technology Stack — Currently Implemented
 
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js, React, TypeScript |
-| Backend | Python, FastAPI |
-| AI | OpenAI API |
-| RAG | Chunking, embeddings, vector retrieval |
-| Data | Enterprise documents + metadata |
-| Testing | pytest |
-| Packaging | Docker |
-| Configuration | Pydantic Settings + environment variables |
+| Layer | Technology | Status |
+|---|---|---|
+| Frontend | Next.js, React, TypeScript | ✅ Implemented |
+| Backend | Python, FastAPI | ✅ Implemented |
+| AI | OpenAI API / LLM generation | ✅ Implemented |
+| RAG | Document loading, chunking, retrieval, context assembly | ✅ Implemented |
+| Embeddings | Local/in-memory embedding baseline | ✅ Implemented |
+| Vector Retrieval | In-memory vector retrieval | ✅ Implemented |
+| Data | Sample enterprise knowledge documents + metadata | ✅ Implemented |
+| Testing | pytest | ✅ Implemented |
+| Packaging | Dockerfile | ✅ Implemented |
+| Configuration | Pydantic Settings + environment variables | ✅ Implemented |
+
+### What is intentionally NOT implemented yet
+
+The following technologies are **not part of the current application**. They are production-evolution items and should not be interpreted as technologies already used by this project:
+
+- PostgreSQL / pgvector
+- OpenAI embedding adapter
+- Redis
+- Kafka / Avro
+- AWS / Azure / EKS / AKS
+- Kubernetes / Helm
+- Terraform
+- GitLab CI / Jenkins / Argo CD
+- Prometheus / Grafana
+- Splunk / Elastic APM
+- OAuth2 / OIDC / JWT / RBAC
+- IAM / mTLS / Keycloak
+- Claude / Gemini / Hugging Face
+- LangChain / LangGraph / MCP
+- AI agents / tool calling
+
+These are documented below as possible production extensions.
 
 ## 🔐 API Key Security
 
@@ -81,6 +105,8 @@ LLM_PROVIDER=openai
 MODEL_NAME=gpt-5-mini
 EMBEDDING_MODEL=text-embedding-3-small
 ```
+
+> `MODEL_NAME` and `EMBEDDING_MODEL` are configuration values. The current implementation uses the OpenAI model for generation; the OpenAI embedding adapter remains a roadmap item.
 
 Start FastAPI:
 
@@ -127,7 +153,7 @@ pytest
 
 The repository contains a small enterprise knowledge document covering engineering, security, support, and AI usage. It is safe to replace this with your own approved documents.
 
-## 🔄 RAG Workflow
+## 🔄 Current RAG Workflow
 
 ```text
 Documents
@@ -136,13 +162,13 @@ Loader
    ↓
 Chunking
    ↓
-Embeddings
+Local/In-Memory Embedding Baseline
    ↓
-Vector Retrieval
+In-Memory Vector Retrieval
    ↓
 Relevant Context
    ↓
-OpenAI
+OpenAI LLM
    ↓
 Grounded Answer
    ↓
@@ -150,6 +176,8 @@ Sources
 ```
 
 ## 🔐 Production Security Roadmap
+
+The following security capabilities are planned rather than currently implemented:
 
 - OAuth2 / OIDC
 - JWT validation
@@ -178,6 +206,8 @@ See [evaluation.md](evaluation.md).
 
 ## 🗺️ Roadmap
 
+### Completed
+
 - [x] Python application structure
 - [x] Document loader
 - [x] Text chunking
@@ -188,6 +218,9 @@ See [evaluation.md](evaluation.md).
 - [x] Next.js frontend
 - [x] Unit tests
 - [x] Dockerfile
+
+### Planned Production Evolution
+
 - [ ] OpenAI embedding adapter
 - [ ] PostgreSQL + pgvector
 - [ ] JWT + RBAC
@@ -196,14 +229,17 @@ See [evaluation.md](evaluation.md).
 - [ ] Prometheus / Grafana observability
 - [ ] Kubernetes deployment
 - [ ] Terraform infrastructure
+- [ ] Cloud deployment on AWS/Azure
+- [ ] Enterprise authentication and authorization
+- [ ] Persistent document/vector storage
 
 ## 🎤 Interview Summary
 
 **Problem:** Enterprise knowledge is distributed across documents and systems.
 
-**Solution:** A Next.js application calls a Python/FastAPI RAG backend, which retrieves relevant context and uses OpenAI to generate a grounded response.
+**Current solution:** A Next.js application calls a Python/FastAPI RAG backend, which performs document loading, chunking, in-memory retrieval, and context assembly before using OpenAI to generate a grounded response.
 
-**Engineering:** Python + FastAPI + OpenAI + modular retrieval/generation + Next.js + TypeScript + tests + Docker.
+**Current engineering stack:** Python + FastAPI + OpenAI + RAG + in-memory retrieval + Next.js + TypeScript + pytest + Docker.
 
 **Production evolution:** Add persistent vector storage, OpenAI embeddings, authorization, evaluation, observability, Kubernetes, and cloud infrastructure.
 
