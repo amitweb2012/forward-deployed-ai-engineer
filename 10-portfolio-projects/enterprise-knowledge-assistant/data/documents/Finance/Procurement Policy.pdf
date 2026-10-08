@@ -12,12 +12,12 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 5 0 obj
-<< /Length 525 >>
+<< /Length 531 >>
 stream
 BT
 /F1 18 Tf
 72 742 Td
-(Architecture Overview) Tj
+(Procurement Policy) Tj
 /F1 10 Tf
 0 -26 Td
 () Tj
@@ -26,16 +26,16 @@ BT
 (Fictional sample document for the Nexus portfolio demo.) Tj
 /F1 10 Tf
 0 -18 Td
-(The web UI uses Next.js and TypeScript.) Tj
+(Document the business need, cost, supplier, and security considerations.) Tj
 /F1 10 Tf
 0 -18 Td
-(FastAPI validates requests and retrieves passages from knowledge files.) Tj
+(Use approved suppliers and obtain budget owner approval before committing funds.) Tj
 /F1 10 Tf
 0 -18 Td
-(The demo uses a lightweight keyword baseline; production could add embeddings.) Tj
+(Purchases involving software or sensitive data need required reviews.) Tj
 /F1 10 Tf
 0 -18 Td
-(Keep credentials on the server and protect internal sources with authorization.) Tj
+(Never split transactions to bypass approval thresholds.) Tj
 ET
 endstream
 endobj
@@ -50,5 +50,5 @@ xref
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-886
+892
 %%EOF

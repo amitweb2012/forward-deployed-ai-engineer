@@ -12,12 +12,12 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 5 0 obj
-<< /Length 525 >>
+<< /Length 519 >>
 stream
 BT
 /F1 18 Tf
 72 742 Td
-(Architecture Overview) Tj
+(Incident Response) Tj
 /F1 10 Tf
 0 -26 Td
 () Tj
@@ -26,16 +26,16 @@ BT
 (Fictional sample document for the Nexus portfolio demo.) Tj
 /F1 10 Tf
 0 -18 Td
-(The web UI uses Next.js and TypeScript.) Tj
+(Report suspected incidents through the designated security channel.) Tj
 /F1 10 Tf
 0 -18 Td
-(FastAPI validates requests and retrieves passages from knowledge files.) Tj
+(Include time, affected system, evidence, and relevant request IDs.) Tj
 /F1 10 Tf
 0 -18 Td
-(The demo uses a lightweight keyword baseline; production could add embeddings.) Tj
+(Preserve logs and avoid unauthorized changes while investigating.) Tj
 /F1 10 Tf
 0 -18 Td
-(Keep credentials on the server and protect internal sources with authorization.) Tj
+(Follow the incident lead instructions for containment and recovery.) Tj
 ET
 endstream
 endobj
@@ -50,5 +50,5 @@ xref
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-886
+880
 %%EOF
